@@ -1,68 +1,109 @@
-import React, { Component } from "react";
+import React, {} from "react";
+import Arrayitem from "./ArrayItem";
+import Mostrar from "./mostrarImagen";
+import { useState } from "react";
 
-export default class seleccion extends Component{
-    constructor(props){
-        super(props);
-        this.state ={
-            value:'algo',
-            id:'',
-            precio:'',
-        };
-        this.cambio = this.cambio.bind(this);
-        this.handleSubmit = this.mostrarCambio.bind(this);
-    }
+function Seleccion(){
+    const [value, setNewValue] = useState('Articulo');
+    const [cant, setNewCant] = useState(0);
+    const [precio, setNewPrecio] = useState("67");
 
-    cambio(event){
-       this.setState({
-           value: event.target.value,
-        })
-    }
-    
-    mostrarCambio(event) {
-        alert('Se ha agregado: ' + this.state.value +' a su carrito');
-        event.preventDefault();
-      }
 
-        render(){
             return(
             <div>
-                <form className='seleccion' onSubmit={this.mostrarCambio}>
+                <div className='seleccion'>
                     <label className='cabeza'>Escoja su producto
-                        <select clasname="lista" value={this.state.value} onChange={this.cambio} >
-                            <option value="camisa">Camisa</option>
-                            <option value="Pantalo">Pantalo</option>
-                            <option value="Blusa">Blusa</option>
-                            <option value="Calcetas">Calcetas</option>
-                            <option value="Ropa interio">Ropa interio</option>
-                            <option value="Bufanda">Bufanda</option>
-                            <option value="Saco">Saco</option>
-                            <option value="Camison">Camison</option>
-                            <option value="Vestido">Vestido</option>
-                            <option value="Corbata">Corbata</option>
+                        <select defaultValue={value} clasname="lista" onChange= {(e) => {setNewPrecio(e.target.precio) ;setNewValue(e.target.value) }} >
+                            <option precio="12.4" value="camisa">Camisa</option>
+                            <option precio="41.75" value="Pantalon">Pantalon</option>
+                            <option precio="71.25" value="Blusa">Blusa</option>
+                            <option precio="82.7" value="Calcetas">Calcetas</option>
+                            <option precio="18.4" value="Ropa interior">Ropa interior</option>
+                            <option precio="147.2" value="Bufanda">Bufanda</option>
+                            <option precio="27.4" value="Saco">Saco</option>
+                            <option precio="27.7" value="Camison">Camison</option>
+                            <option precio="152.4" value="Vestido">Vestido</option>
+                            <option precio="18.4" value="Corbata">Corbata</option>
                         </select>
+                    <div>
+                        <Mostrar value={value}/>
+                    </div>
+
+
                     </label>
-                    <input className="boton" type="submit" value="Submit"/>
-                </form>
+                    <button onClick={()=>setNewCant(cant - 1)} className="botonMenor" >-</button>
+                    <button onClick={()=>setNewCant(cant + 1)} className="botonMenor" >+</button>
+                    <h3>{cant}</h3>
+
+                    <Element value={value} precio={precio} cantidad={cant}></Element>
+                
+                </div>  
+            </div>
+        )
+}
 
 
-                <div className='nota'>
-                <h4>Nota de Venta</h4>
+function Element(props){
+    const [item, setItem] = useState([]);
+
+    const addItem = (props) =>{
+        const newItems = {
+            name:props.value,
+            id: 20,
+            cantidad:props.cant,
+            preci:props.precio
+        }
+        setItem([...item, newItems]);
+    }
+
+    const removeItem=(id)=>{
+        const newItem = item.filter((item)=> item.id === id);
+        setItem(newItem);
+    };
+
+    return(
+        <div className="cabeza">
+            <h4>Nota de Venta</h4>
                     <table class="default">
                         <tr>
                             <th>Articulo</th>
                             <th>Id</th>
+                            <th>Cantidad</th>
                             <th>Precio</th>
+                            <th>Total</th>
                         </tr>
                         <tr>
-                            <td>{this.state.value}</td>
-                            <td>{this.state.id}</td>
-                            <td>{this.state.precio}</td>
+                            <td className="cabeza">
+                            <ul className="cabeza">
+                                {item.map((item)=>(
+                                <li className="cabeza" key={item.name}>{item.name}
+                                </li>
+                                ))}
+                            </ul>
+                            </td>
+                            <td className="cabeza">
+                            <ul className="cabeza" key={item.id}>
+                            {item.map((item)=>(
+                                <ul className="cabeza"> {item.id}</ul>
+                                ))}
+                            </ul>
+                            </td>
+                            <td className="cabeza">
+                            <ul className="cabeza" key={item.cantidad}>
+                            {item.map((item)=>(
+                                <ul className="cabeza"> {item.cantidad}</ul>
+                                ))}
+                            </ul>
+                            </td>
                         </tr>
                         </table>
-                    <input className='boton' type="button" value="Eliminar"/>
-                    <input className='boton' type="button" value="Enviar"/>
-                    </div>  
-            </div>);
-        }
+            <button className="botonEliminar" onClick={removeItem}>Eliminar</button>
+            <button onClick={addItem} className="botonAgregar" >Agregar</button>
+            <div>
+        </div>
+        </div>
+    );
 }
 
+
+export default Seleccion;
