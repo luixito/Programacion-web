@@ -5,7 +5,7 @@ import Imagenes from "./img/img"
 function mostar(props){
         switch(props.value) {
           case 'camisa':
-            return <div className="back">
+            return <div precio="21" className="back">
                   <img src={Imagenes.camisa} className="mostrarImg" alt="200px"/>
                   <h4>Descripcion: Camisa del funeral de tu abuelito</h4>
                   </div>

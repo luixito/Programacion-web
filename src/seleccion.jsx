@@ -1,19 +1,24 @@
 import React, {} from "react";
-import Arrayitem from "./ArrayItem";
 import Mostrar from "./mostrarImagen";
 import { useState } from "react";
 
 function Seleccion(){
     const [value, setNewValue] = useState('Articulo');
+    const [precio, setNewPrecio] = useState('6');
     const [cant, setNewCant] = useState(0);
-    const [precio, setNewPrecio] = useState("67");
+
+    const multiEvent =(e)=>{
+        setNewValue(e.target.value);
+    }
+
+    
 
 
             return(
             <div>
                 <div className='seleccion'>
                     <label className='cabeza'>Escoja su producto
-                        <select defaultValue={value} clasname="lista" onChange= {(e) => {setNewPrecio(e.target.precio) ;setNewValue(e.target.value) }} >
+                        <select defaultValue={value} clasname="lista" onChange= {multiEvent} >
                             <option precio="12.4" value="camisa">Camisa</option>
                             <option precio="41.75" value="Pantalon">Pantalon</option>
                             <option precio="71.25" value="Blusa">Blusa</option>
@@ -24,12 +29,11 @@ function Seleccion(){
                             <option precio="27.7" value="Camison">Camison</option>
                             <option precio="152.4" value="Vestido">Vestido</option>
                             <option precio="18.4" value="Corbata">Corbata</option>
+                        <button className="botonMenor" onClick={multiEvent}>Agregar</button>
                         </select>
                     <div>
                         <Mostrar value={value}/>
                     </div>
-
-
                     </label>
                     <button onClick={()=>setNewCant(cant - 1)} className="botonMenor" >-</button>
                     <button onClick={()=>setNewCant(cant + 1)} className="botonMenor" >+</button>
@@ -43,7 +47,7 @@ function Seleccion(){
 }
 
 
-function Element(props){
+function Element(cant, value, precio){
     const [item, setItem] = useState([]);
 
     const addItem = (props) =>{
